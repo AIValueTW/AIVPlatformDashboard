@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #595959;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.apexcharts-tooltip {
+  background: #f1f1f1;
+  color: black;
+}
+
+.arrow_box{
+  font-size: larger;
+  padding: 5px 15px;
+  background-color: "#f1f1f1";
+  color: "#4a4a4a";
+}
+.option{
+  /*用div的样式代替select的样式*/
+    margin: 100px;
+   width: 140px;
+    height: 40px;
+    /*border-radius: 5px;*/
+  /*盒子阴影修饰作用,自己随意*/
+ /* box-shadow: 0 0 5px #ccc;*/
+    border: 1px solid #cccccc;
+    position: relative;
+  }
+/* .arrow_box {
+  position: relative;
+  background: #a1a1a1;
+
+}
+.arrow_box:after, .arrow_box:before {
+  right: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.arrow_box:after {
+  border-color: rgba(85, 85, 85, 0);
+  border-right-color: #555;
+  border-width: 10px;
+  margin-top: -10px;
+}
+.arrow_box:before {
+  border-color: rgba(0, 0, 0, 0);
+  border-right-color: #000000;
+  border-width: 13px;
+  margin-top: -13px;
+}
+
+#chart .apexcharts-tooltip {
+  color: #fff;
+  transform: translateX(10px) translateY(10px);
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+#chart .apexcharts-tooltip span {
+  padding: 5px 10px;
+  display: inline-block;
+} */
+
