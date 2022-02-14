@@ -1,10 +1,8 @@
 import axios from "axios";
 import { dateISOString } from "../components/dateISOString";
 
-// const ip = "http://210.64.10.243:8080"
-// const ip = "http://210.64.10.243/dashboard-api";
-const ip = "http://10.1.1.167:5002"
-const loginIp = "http://210.64.10.243:8080";
+const ip = process.env.REACT_APP_DASHBOARD
+const loginIp = process.env.REACT_APP_SERVER;// 閱讀最外層檔案.env &&development 為本地端啟動 production 為伺服器設定
 
 export const LOGIN_ip = loginIp + "/login";
 
@@ -37,7 +35,7 @@ export const getExcelOptions = (author, ma_id) => {
 
 export const getExcelName = (author, ma_id, request) => {
   let data = axios.post(
-    ip+"/by_event_export/?author=" + author + "&ma_id=" + ma_id,
+    ip + "/by_event_export/?author=" + author + "&ma_id=" + ma_id,
     request
   );
   return data;
