@@ -13,12 +13,15 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { styled } from "@mui/system";
 import Box from "@mui/material/Box";
-import { CheckboxGroup } from "../../../../components/CheckboxGroup";
+import { CheckboxGroup } from "../../../../components/CheckboxGroup copy";
 
 export function ExcelFilter({ activityNameFilter, value, setValue }) {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [exportOptions, setExportOptions] = useState();
+
+  const [selected, setSelected] = useState([]);
+
   const open = Boolean(anchorEl);
 
   const dispatch = useDispatch();
@@ -33,7 +36,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
       }),
       shallowEqual
     );
-
   const Input = styled("input")({
     display: "none",
   });
@@ -67,13 +69,27 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
     );
   }, [dashboard2ChartData, activityNameFilter]);
 
+console.log(selected)
+
   const handleChange = (event) => {
-    // let checkTemp = { ...value, [event.target.value]:[ event.target.checked ,event.target.name]};
+    // const checkedValue=event.target.value
+    // let checkTemp={}
+    // checkTemp = { ...value, [event.target.value]:[ event.target.checked ,event.target.name]};
     let checkTemp = {
       ...value,
       [event.target.value]: [event.target.checked, event.target.name],
     };
-
+    console.log(checkTemp)
+    // console.log(checkedValue)
+    // if(checkedValue==="all"){
+    //   checkTemp="123"
+    // }
+    // else{
+    //   checkTemp = {
+    //     ...value,
+    //     [event.target.value]: [event.target.checked, event.target.name],
+    //   };
+    // }
 
     let temp = [];
 
@@ -96,7 +112,8 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
     };
 
     for (const key in checkTemp) {
-      if (checkTemp[key][0] == true) {
+      console.log(key);
+      if (checkTemp[key][0] == true && key !== "all") {
         temp.push({ [checkTemp[key][1]]: key });
         switch (checkTemp[key][1]) {
           case "職稱":
@@ -129,22 +146,22 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
         }
       }
     }
-
+    console.log(excelTemp);
     setValue(checkTemp);
     setExportOptions(excelTemp);
-
-
   };
-
   useEffect(() => {
     dispatch(
       actions.getExcelName({
         author: infoData?.loginId || "412",
-        ma_id:activityNameFilter&&activityNameFilter.length?activityNameFilter:[],
+        ma_id:
+          dashboard2ChartData?.droplist.value[
+            activityNameFilter !== -1 ? activityNameFilter : "1"
+          ],
         request: exportOptions,
       })
     );
-  }, [exportOptions,activityNameFilter]);
+  }, [exportOptions]);
 
   const acchandleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -153,7 +170,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
   return (
     <div>
       <Button
-        sx={{fontSize:"1.8vmin",minWidth:"100%" }}
+        sx={{ marginLeft: 2, fontSize: "1.5vmin" }}
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
@@ -173,11 +190,11 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
         }}
       >
         <FormControlLabel
-         label="全選"
-         control={<Checkbox  onChange={handleChange}/>}
-         value="all"
-         name="全選"
-         sx={{marginLeft:"1px"}}
+          label="全選"
+          control={<Checkbox onChange={handleChange} />}
+          value="all"
+          name="全選"
+          sx={{ marginLeft: "1px" }}
         />
         {excelOptions && excelOptions["職稱"].options.length ? (
           <Accordion
@@ -191,7 +208,8 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
               <CheckboxGroup
                 array={excelOptions["職稱"]}
                 name={"職稱"}
-                handleChange={handleChange}
+                selected={selected}
+                setSelected={setSelected}
               />
             </AccordionDetails>
           </Accordion>
@@ -208,7 +226,8 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
               <CheckboxGroup
                 array={excelOptions["產業"]}
                 name={"產業"}
-                handleChange={handleChange}
+                selected={selected}
+                setSelected={setSelected}
               />
             </AccordionDetails>
           </Accordion>
@@ -227,12 +246,13 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
               <CheckboxGroup
                 array={excelOptions["狀態"]}
                 name={"狀態"}
-                handleChange={handleChange}
+                selected={selected}
+                setSelected={setSelected}
               />
             </AccordionDetails>
           </Accordion>
         ) : null}
-        {excelOptions && excelOptions["場次"].options.length ? (
+        {/* {excelOptions && excelOptions["場次"].options.length ? ( 
           <Accordion
             expanded={expanded === "panel4"}
             onChange={acchandleChange("panel4")}
@@ -248,7 +268,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
               />
             </AccordionDetails>
           </Accordion>
-        ) : null}
+        ) : null} 
         {excelOptions && excelOptions["性別"].options.length ? (
           <Accordion
             expanded={expanded === "panel5"}
@@ -299,7 +319,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
               />
             </AccordionDetails>
           </Accordion>
-        ) : null}
+        ) : null} */}
         {/* <MenuItem sx={{ backgroundColor: "#6365a3" }} onClick={handleClose}>
           匯出
         </MenuItem> */}

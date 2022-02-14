@@ -4,7 +4,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 
-import { MenuItem } from "@mui/material";
+import { Checkbox, FormControlLabel, MenuItem } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -49,7 +49,8 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
     const link = document.createElement("a");
     link.download = excelName;
     link.href =
-      "http://210.64.10.243/dashboard-api/download/?filename=" + excelName;
+      // "http://210.64.10.243/dashboard-api/download/?filename=" + excelName;
+      "http://10.1.1.167/download/?filename=" + excelName;
     link.click();
     setAnchorEl(null);
   };
@@ -67,11 +68,24 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
   }, [dashboard2ChartData, activityNameFilter]);
 
   const handleChange = (event) => {
-    // let checkTemp = { ...value, [event.target.value]:[ event.target.checked ,event.target.name]};
+    // const checkedValue=event.target.value
+    // let checkTemp={}
+  // checkTemp = { ...value, [event.target.value]:[ event.target.checked ,event.target.name]};
     let checkTemp = {
       ...value,
       [event.target.value]: [event.target.checked, event.target.name],
     };
+    // console.log(checkedValue)
+    // if(checkedValue==="all"){
+    //   checkTemp="123"
+    // }
+    // else{
+    //   checkTemp = {
+    //     ...value,
+    //     [event.target.value]: [event.target.checked, event.target.name],
+    //   };
+    // }
+    
 
     let temp = [];
 
@@ -127,7 +141,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
         }
       }
     }
-
+console.log(excelTemp)
     setValue(checkTemp);
     setExportOptions(excelTemp);
 
@@ -171,6 +185,13 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
           "aria-labelledby": "basic-button",
         }}
       >
+         <FormControlLabel
+         label="全選"
+         control={<Checkbox  onChange={handleChange}/>}
+         value="all"
+         name="全選"
+         sx={{marginLeft:"1px"}}
+        />
         {excelOptions && excelOptions["職稱"].options.length ? (
           <Accordion
             expanded={expanded === "panel1"}
@@ -184,11 +205,13 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 array={excelOptions["職稱"]}
                 name={"職稱"}
                 handleChange={handleChange}
+                engName={"job_name"}
+                exportOptions={exportOptions}
               />
             </AccordionDetails>
           </Accordion>
         ) : null}
-        {excelOptions && excelOptions["產業"].options.length ? (
+         {excelOptions && excelOptions["產業"].options.length ? (
           <Accordion
             expanded={expanded === "panel2"}
             onChange={acchandleChange("panel2")}
@@ -201,11 +224,13 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 array={excelOptions["產業"]}
                 name={"產業"}
                 handleChange={handleChange}
+                engName={"IP_industry"}
+                exportOptions={exportOptions}
               />
             </AccordionDetails>
           </Accordion>
-        ) : null}
-        {excelOptions && excelOptions["狀態"].options.length ? (
+       ) : null} 
+         {excelOptions && excelOptions["狀態"].options.length ? ( 
           <Accordion
             expanded={expanded === "panel3"}
             onChange={acchandleChange("panel3")}
@@ -220,11 +245,13 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 array={excelOptions["狀態"]}
                 name={"狀態"}
                 handleChange={handleChange}
+                engName={"account_status"}
+                exportOptions={exportOptions}
               />
             </AccordionDetails>
           </Accordion>
-        ) : null}
-        {excelOptions && excelOptions["場次"].options.length ? (
+        ) : null} 
+       {/* {excelOptions && excelOptions["場次"].options.length ? ( 
           <Accordion
             expanded={expanded === "panel4"}
             onChange={acchandleChange("panel4")}
@@ -240,7 +267,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
               />
             </AccordionDetails>
           </Accordion>
-        ) : null}
+        ) : null} 
         {excelOptions && excelOptions["性別"].options.length ? (
           <Accordion
             expanded={expanded === "panel5"}
@@ -291,7 +318,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
               />
             </AccordionDetails>
           </Accordion>
-        ) : null}
+        ) : null} */}
         {/* <MenuItem sx={{ backgroundColor: "#6365a3" }} onClick={handleClose}>
           匯出
         </MenuItem> */}

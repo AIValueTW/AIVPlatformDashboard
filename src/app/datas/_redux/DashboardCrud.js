@@ -2,7 +2,8 @@ import axios from "axios";
 import { dateISOString } from "../components/dateISOString";
 
 // const ip = "http://210.64.10.243:8080"
-const ip = "http://210.64.10.243/dashboard-api";
+// const ip = "http://210.64.10.243/dashboard-api";
+const ip = "http://10.1.1.167:5002"
 const loginIp = "http://210.64.10.243:8080";
 
 export const LOGIN_ip = loginIp + "/login";

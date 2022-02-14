@@ -68,7 +68,7 @@ export function OverviewPage() {
   useEffect(() => {
     dispatch(
       actions.getDashboard1ChartData({
-        author: infoData?.loginId,
+        author: infoData?.loginId||"412",
         ma_id:
           dashboard2ChartData?.droplist.value[
             activityNameFilter !== -1 ? activityNameFilter : "0"
@@ -79,7 +79,7 @@ export function OverviewPage() {
   }, [dashboard2ChartData, activityNameFilter]);
   useEffect(() => {
     dispatch(
-      actions.getDashboard2ChartData({ author: infoData?.loginId  })
+      actions.getDashboard2ChartData({ author: infoData?.loginId||"412"  })
     );
   }, []);
 

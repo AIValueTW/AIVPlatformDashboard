@@ -34,6 +34,7 @@ export const getInfoData = () => (dispatch) => {
 export const getDashboard1ChartData =
   ({ author, ma_id }) =>
   (dispatch) => {
+
     return dashboardAPI
       .getDashboard1ChartData(author, ma_id)
       .then((res) => {
