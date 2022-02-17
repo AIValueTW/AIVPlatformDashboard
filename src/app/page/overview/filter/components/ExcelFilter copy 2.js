@@ -20,8 +20,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [exportOptions, setExportOptions] = useState();
 
-  const [checkedAll,setCheckedAll]=useState(false)
-
   const [selected, setSelected] = useState([]);
 
   const [selectedTemp, setSelectedTemp] = useState([]);
@@ -81,15 +79,13 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
       }
     }
     setExportOptions(excelTemp);
-    setCheckedAll(checked)
   }
-  
   const onDownload = (event) => {
     const link = document.createElement("a");
     link.download = excelName;
     link.href =
       // "http://210.64.10.243/dashboard-api/download/?filename=" + excelName;
-      "http://10.1.1.167:5002/download/?filename=" + excelName;
+      "http://10.1.1.167/download/?filename=" + excelName;
     link.click();
     setAnchorEl(null);
   };
@@ -171,18 +167,18 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
 
   console.log(exportOptions);
 
-  // useEffect(() => {
-  //   dispatch(
-  //     actions.getExcelName({
-  //       author: infoData?.loginId || "412",
-  //       ma_id:
-  //         dashboard2ChartData?.droplist.value[
-  //           activityNameFilter !== -1 ? activityNameFilter : "1"
-  //         ],
-  //       request: exportOptions,
-  //     })
-  //   );
-  // }, [exportOptions]);
+  useEffect(() => {
+    dispatch(
+      actions.getExcelName({
+        author: infoData?.loginId || "412",
+        ma_id:
+          dashboard2ChartData?.droplist.value[
+            activityNameFilter !== -1 ? activityNameFilter : "1"
+          ],
+        request: exportOptions,
+      })
+    );
+  }, [exportOptions]);
 
   const acchandleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -236,8 +232,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 temp={selectedTemp}
                 setSelected={setSelected}
                 setTemp={setSelectedTemp}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -258,8 +252,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 temp={selectedTemp}
                 setSelected={setSelected}
                 setTemp={setSelectedTemp}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -282,8 +274,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 temp={selectedTemp}
                 setSelected={setSelected}
                 setTemp={setSelectedTemp}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -304,8 +294,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 temp={selectedTemp}
                 setSelected={setSelected}
                 setTemp={setSelectedTemp}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -326,8 +314,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 temp={selectedTemp}
                 setSelected={setSelected}
                 setTemp={setSelectedTemp}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -348,8 +334,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 temp={selectedTemp}
                 setSelected={setSelected}
                 setTemp={setSelectedTemp}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -370,8 +354,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 temp={selectedTemp}
                 setSelected={setSelected}
                 setTemp={setSelectedTemp}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
