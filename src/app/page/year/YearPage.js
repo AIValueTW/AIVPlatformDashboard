@@ -42,7 +42,7 @@ export function YearPage() {
       actions.getDashboard2ChartData({ author: infoData?.loginId || "412" })
     );
   }, []);
-
+console.log(activityNameFilter)
   // useEffect(() => {
   //   dispatch(
   //     actions.getDashboard3ChartData({

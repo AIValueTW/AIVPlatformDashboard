@@ -13,12 +13,47 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { styled } from "@mui/system";
 import Box from "@mui/material/Box";
-import { CheckboxGroup } from "../../../../components/CheckboxGroup";
+import { CheckboxGroup } from "../../../../components/CheckboxGroup copy";
+
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
 
 export function ExcelFilter({ activityNameFilter, value, setValue }) {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [exportOptions, setExportOptions] = useState();
+
+  const [checkedAll, setCheckedAll] = useState(false);
+
+  const [selected, setSelected] = useState([]);
+
+  const [allOptions, setAllOptions] = useState([]);
+
+  const [selectedValue, setSelectedValue] = useState([]);
+
+  const selectedData = selected.filter(onlyUnique);
+
+  let a = [];
+  let b = [];
+  let c = [];
+  let d = [];
+  let e = [];
+  let f = [];
+  let g = [];
+  let h = [];
+
+  let excelTemp = {
+    job_name: a,
+    IP_industry: b,
+    account_status: c,
+    session: d,
+    ipcheck_gender: e,
+    office_position: f,
+    IP_work_duty: g,
+    selectall: h,
+  };
+
   const open = Boolean(anchorEl);
 
   const dispatch = useDispatch();
@@ -33,7 +68,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
       }),
       shallowEqual
     );
-
   const Input = styled("input")({
     display: "none",
   });
@@ -45,14 +79,17 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const onDownload = (event) => {
-    const link = document.createElement("a");
-    link.download = excelName;
-    link.href =
-      // "http://210.64.10.243/dashboard-api/download/?filename=" + excelName;
-      "http://10.1.1.167/download/?filename=" + excelName;
-    link.click();
-    setAnchorEl(null);
+  const handleChange = (event) => {
+    const checked = event.target.checked;
+    // if (checked === true) {
+    // h.push("all");
+    // }
+    // if(selected.length===allOptions.length){
+    //   setSelectedValue([])
+    // }
+    setSelected(selected.length === allOptions.length?[]:allOptions.filter((res)=>selected.includes(res)))
+    setExportOptions(excelTemp);
+    setCheckedAll(checked);
   };
 
   useEffect(() => {
@@ -67,88 +104,100 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
     );
   }, [dashboard2ChartData, activityNameFilter]);
 
-  const handleChange = (event) => {
-    // let checkTemp = { ...value, [event.target.value]:[ event.target.checked ,event.target.name]};
-    let checkTemp = {
-      ...value,
-      [event.target.value]: [event.target.checked, event.target.name],
-    };
-
-
-    let temp = [];
-
-    let a = [];
-    let b = [];
-    let c = [];
-    let d = [];
-    let e = [];
-    let f = [];
-    let g = [];
-
-    let excelTemp = {
-      job_name: a,
-      IP_industry: b,
-      account_status: c,
-      session: d,
-      ipcheck_gender: e,
-      office_position: f,
-      IP_work_duty: g,
-    };
-
-    for (const key in checkTemp) {
-      if (checkTemp[key][0] == true) {
-        temp.push({ [checkTemp[key][1]]: key });
-        switch (checkTemp[key][1]) {
-          case "職稱":
-            a.push(key);
-            // excelTemp.job_name= a;
-            break;
-          case "產業":
-            b.push(key);
-            // excelTemp.IP_industry = b;
-            break;
-          case "狀態":
-            c.push(key);
-            // excelTemp.account_status = c;
-            break;
-          case "場次":
-            d.push(key);
-            // excelTemp.session = d;
-            break;
-          case "性別":
-            e.push(key);
-            // excelTemp.ipcheck_gender = e;
-            break;
-          case "職級":
-            f.push(key);
-            // excelTemp.office_position = f;
-            break;
-          default:
-            g.push(key);
-          // excelTemp.IP_work_duty = g;
+  useEffect(() => {
+    if (excelOptions) {
+      let dataTemp = [];
+      let optionsTemp = {};
+      for (const key in excelOptions) {
+        optionsTemp = excelOptions[key].options;
+        for (const key2 in optionsTemp) {
+          dataTemp.push(optionsTemp[key2]);
         }
       }
+      setAllOptions(dataTemp);
     }
+  }, [excelOptions]);
 
-    setValue(checkTemp);
+  useEffect(() => {
+    // if (allOptions.length > 0 && selected.length !== allOptions.length) {
+      for (const key in excelOptions) {
+        for (const key2 in excelOptions[key]) {
+          selectedData.map((datum) => {
+            switch (key) {
+              case "職稱":
+                if (excelOptions[key][key2].includes(datum)) {
+                  a.push(datum);
+                }
+                break;
+              case "產業":
+                if (excelOptions[key][key2].includes(datum)) {
+                  b.push(datum);
+                }
+                break;
+              case "狀態":
+                if (excelOptions[key][key2].includes(datum)) {
+                  c.push(datum);
+                }
+                break;
+              case "場次":
+                if (excelOptions[key][key2].includes(datum)) {
+                  d.push(datum);
+                }
+                break;
+              case "性別":
+                if (excelOptions[key][key2].includes(datum)) {
+                  e.push(datum);
+                }
+                break;
+              case "職級":
+                if (excelOptions[key][key2].includes(datum)) {
+                  f.push(datum);
+                }
+                break;
+              default:
+                if (excelOptions[key][key2].includes(datum)) {
+                  g.push(datum);
+                }
+            }
+          });
+        }
+      }
+    // }
     setExportOptions(excelTemp);
+  }, [selected]);
 
-
-  };
 
   useEffect(() => {
     dispatch(
       actions.getExcelName({
         author: infoData?.loginId || "412",
-        ma_id:activityNameFilter&&activityNameFilter.length?activityNameFilter:[],
+        ma_id:
+          activityNameFilter && activityNameFilter.length
+            ? activityNameFilter
+            : [],
         request: exportOptions,
       })
     );
-  }, [exportOptions,activityNameFilter]);
+  }, [exportOptions]);
+
+  const onDownload = (event) => {
+    const link = document.createElement("a");
+    link.download = excelName;
+    link.href =
+      process.env.REACT_APP_DASHBOARD + "/download/?filename=" + excelName;
+    link.click();
+    setAnchorEl(null);
+  };
 
   const acchandleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
+  // const isAllSelected = exportOptions?.selectall.includes("all")
+  const isAllSelected =
+    allOptions.length > 0 && allOptions.length === selected.length;
+
+  console.log(allOptions.length, selected.length);
 
   return (
     <div>
@@ -173,11 +222,12 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
         }}
       >
         <FormControlLabel
-         label="全選"
-         control={<Checkbox  onChange={handleChange}/>}
-         value="all"
-         name="全選"
-         sx={{marginLeft:"1px"}}
+          label="全選"
+          control={<Checkbox onChange={handleChange} />}
+          value="all"
+          name="全選"
+          checked={isAllSelected}
+          sx={{ marginLeft: "1px" }}
         />
         {excelOptions && excelOptions["職稱"].options.length ? (
           <Accordion
@@ -189,9 +239,15 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
             </AccordionSummary>
             <AccordionDetails>
               <CheckboxGroup
+                rawData={excelOptions}
                 array={excelOptions["職稱"]}
-                name={"職稱"}
-                handleChange={handleChange}
+                parameter={"職稱"}
+                selected={selected}
+                selectedValue={selectedValue}
+                setSelected={setSelected}
+                setSelectedValue={setSelectedValue}
+                checkedAll={checkedAll}
+                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -206,9 +262,15 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
             </AccordionSummary>
             <AccordionDetails>
               <CheckboxGroup
+                rawData={excelOptions}
                 array={excelOptions["產業"]}
-                name={"產業"}
-                handleChange={handleChange}
+                parameter={"產業"}
+                selected={selected}
+                selectedValue={selectedValue}
+                setSelected={setSelected}
+                setSelectedValue={setSelectedValue}
+                checkedAll={checkedAll}
+                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -225,9 +287,15 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
             </AccordionSummary>
             <AccordionDetails>
               <CheckboxGroup
+                rawData={excelOptions}
                 array={excelOptions["狀態"]}
-                name={"狀態"}
-                handleChange={handleChange}
+                parameter={"狀態"}
+                selected={selected}
+                selectedValue={selectedValue}
+                setSelected={setSelected}
+                setSelectedValue={setSelectedValue}
+                checkedAll={checkedAll}
+                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -242,9 +310,15 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
             </AccordionSummary>
             <AccordionDetails>
               <CheckboxGroup
+                rawData={excelOptions}
                 array={excelOptions["場次"]}
-                name={"場次"}
-                handleChange={handleChange}
+                parameter={"場次"}
+                selected={selected}
+                selectedValue={selectedValue}
+                setSelected={setSelected}
+                setSelectedValue={setSelectedValue}
+                checkedAll={checkedAll}
+                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -259,9 +333,15 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
             </AccordionSummary>
             <AccordionDetails>
               <CheckboxGroup
+                rawData={excelOptions}
                 array={excelOptions["性別"]}
-                name={"性別"}
-                handleChange={handleChange}
+                parameter={"性別"}
+                selected={selected}
+                selectedValue={selectedValue}
+                setSelected={setSelected}
+                setSelectedValue={setSelectedValue}
+                checkedAll={checkedAll}
+                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -276,9 +356,15 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
             </AccordionSummary>
             <AccordionDetails>
               <CheckboxGroup
+                rawData={excelOptions}
                 array={excelOptions["職級"]}
-                name={"職級"}
-                handleChange={handleChange}
+                parameter={"職級"}
+                selected={selected}
+                selectedValue={selectedValue}
+                setSelected={setSelected}
+                setSelectedValue={setSelectedValue}
+                checkedAll={checkedAll}
+                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -293,9 +379,15 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
             </AccordionSummary>
             <AccordionDetails>
               <CheckboxGroup
+                rawData={excelOptions}
                 array={excelOptions["職務"]}
-                name={"職務"}
-                handleChange={handleChange}
+                parameter={"職務"}
+                selected={selected}
+                selectedValue={selectedValue}
+                setSelected={setSelected}
+                setSelectedValue={setSelectedValue}
+                checkedAll={checkedAll}
+                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>

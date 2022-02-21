@@ -1,111 +1,64 @@
 import { Checkbox, FormControl, FormControlLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export function CheckboxGroup({ array, parameter, selected,temp,setSelected,setTemp,checkedAll,setCheckedAll }) {
-  const [selectedValue, setSelectedValue] = useState([]);
-  const [testTemp,setTestTemp]=useState([])
-  const [isChecked, setIsChecked] = useState(false);
+export function CheckboxGroup({
+  rawData,
+  array,
+  parameter,
+  selected,
+  setSelected,
+  selectedValue,
+  setSelectedValue,
+  checkedAll,
+  setCheckedAll,
+}) {
+  
 
   const options = array.options;
-// console.log(options)
 
-console.log(checkedAll)
- 
+
+  useEffect(() => {
+    if (checkedAll === true) {
+      let selectedTemp = [];
+      for (const key in rawData) {
+        for (const key2 in rawData[key]) { 
+          selectedTemp.push(...rawData[key][key2]);
+        }
+      }
+      setSelected(selected.length===selectedTemp.length?[]:selectedTemp);
+    }
+  },[checkedAll]);
+
   const handleChange = (event) => {
     const value = event.target.value;
-    const checked = event.target.checked; 
-    
+
     if (value === parameter) {
-      console.log("all")
-      setIsChecked(checked)
-      // setSelected(selected.length === options.length ? [] : options);
-      setSelected([...selected,...options]);
-      // setSelectedValue([...selectedValue,...options])
-      setSelectedValue([...selectedValue,...options])
+      setSelected([...selected, ...options]);
+      setSelectedValue(selectedValue.length === options.length ? [] : options);
       return;
     }
     if (selected.indexOf(value) !== -1) {
-      console.log("noall")
       // if value already present
       const newSelected = selected.filter((s) => s !== value);
-      console.log(newSelected)
-      setIsChecked(false)
+      const newSelectedValue = selectedValue.filter((s) => s !== value);
+      setCheckedAll(false);
       setSelected(newSelected);
-      setSelectedValue(newSelected);
+      setSelectedValue(newSelectedValue);
     } else {
       // if value not present
-      console.log("one")
       setSelected([...selected, value]);
-      setSelectedValue([...selectedValue,value]);
-}
-     
-      // setTemp(selectedValue)
-    
-
+      setSelectedValue([...selectedValue, value]);
+    }
   };
 
-//   const handleChange = (event) => {
-//     const value = event.target.value;
-//     const checked = event.target.checked; 
-    
-//     if (value === parameter) {
-//       console.log("all")
-//       setIsChecked(checked)
-//       // setSelected(selected.length === options.length ? [] : options);
-//       ;
-//       // setSelectedValue([...selectedValue,...options])
-//       if(checked===true){
-//         setSelected([...selected,...options])
-//       }
-//       else{
-//         setSelected([])
-//       }
-//       setSelectedValue([selectedValue,...options])
-//       return;
-//     }
-//     if (selected.indexOf(value) !== -1) {
-//       console.log("noall")
-//       // if value already present
-//       const newSelected = selected.filter((s) => s !== value);
-//       console.log(newSelected)
-//       setIsChecked(false)
-//       setSelected(newSelected);
-//       setSelectedValue(newSelected);
-//     } else {
-//       // if value not present
-//       console.log("one")
-//       setSelected([...selected, value]);
-//       setSelectedValue([...selectedValue,value]);
-// }
-     
-//       // setTemp(selectedValue)
-    
 
-//   };
+  const isAllSelected =
+    (options.length > 0 && selectedValue.length === options.length) ||
+    checkedAll === true;
 
-  // console.log(selected)
-
-  console.log(selectedValue,options)
-
- const isAllSelected =
-    // options.length > 0 && selected.length === options.length;
-    (options.length > 0 && selectedValue.length === options.length)||checkedAll===true
-
-
-
-useEffect(()=>{
-  setTemp(selected)
-  // setTestTemp(selectedValue)
-},[selected])
-
-useEffect(()=>{
-  setTestTemp(selectedValue)
-},[selectedValue])
-
-
-// console.log(testTemp)
-
-
+  // useEffect(() => {
+  //   setTemp(selected);
+  // }, [selected]);
 
   const listItem = options.map((option) => {
     return (
@@ -113,8 +66,7 @@ useEffect(()=>{
         label={option}
         control={<Checkbox onChange={handleChange} />}
         value={option}
-        // name={parameter}
-        checked={selected.includes(option)||checkedAll===true}
+        checked={selected.includes(option) }
       />
     );
   });
@@ -131,8 +83,6 @@ useEffect(()=>{
         onChange={handleChange}
         checked={isAllSelected}
       />
-      {/* <Checkbox value="all" onChange={handleChange} checked={isAllSelected} />
-       Select All */}
       {listItem}
     </FormControl>
   );

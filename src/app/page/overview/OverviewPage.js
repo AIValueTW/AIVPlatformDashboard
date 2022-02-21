@@ -52,34 +52,34 @@ export function OverviewPage() {
 
   const dispatch = useDispatch();
 
-  const { dashboard1ChartData, dashboard2ChartData, infoData,excelOptions } = useSelector(
-    (state) => ({
-      dashboard1ChartData: state.dashboard.dashboard1ChartData,
-      dashboard2ChartData: state.dashboard.dashboard2ChartData,
-      infoData: state.dashboard.infoData,
-      excelOptions: state.dashboard.excelOptions
-    }),
-    shallowEqual
-  );
-  useEffect(()=>{
-    dispatch(actions.login())
-    dispatch(actions.getInfoData())
-  },[])
+  const { dashboard1ChartData, dashboard2ChartData, infoData, excelOptions } =
+    useSelector(
+      (state) => ({
+        dashboard1ChartData: state.dashboard.dashboard1ChartData,
+        dashboard2ChartData: state.dashboard.dashboard2ChartData,
+        infoData: state.dashboard.infoData,
+        excelOptions: state.dashboard.excelOptions,
+      }),
+      shallowEqual
+    );
+  useEffect(() => {
+    dispatch(actions.login());
+    dispatch(actions.getInfoData());
+  }, []);
   useEffect(() => {
     dispatch(
       actions.getDashboard1ChartData({
-        author: infoData?.loginId||"412",
+        author: infoData?.loginId || "412",
         ma_id:
           dashboard2ChartData?.droplist.value[
             activityNameFilter !== -1 ? activityNameFilter : "0"
           ],
-      }),
-      
+      })
     );
   }, [dashboard2ChartData, activityNameFilter]);
   useEffect(() => {
     dispatch(
-      actions.getDashboard2ChartData({ author: infoData?.loginId||"412"  })
+      actions.getDashboard2ChartData({ author: infoData?.loginId || "412" })
     );
   }, []);
 
@@ -87,12 +87,11 @@ export function OverviewPage() {
     rawData: dashboard2ChartData?.attendance_rate,
     checkIndex: activityNameFilter !== -1 ? activityNameFilter : "0",
   });
-  const jobNameData = processBar({ rawData: dashboard1ChartData?.職稱||[] });
+  const jobNameData = processBar({ rawData: dashboard1ChartData?.職稱 || [] });
   const industryData = processTreemap({
     rawData: dashboard1ChartData?.產業 || [],
   });
-
-
+console.log(activityNameFilter)
   return (
     <>
       <Container maxWidth="false">
@@ -115,7 +114,7 @@ export function OverviewPage() {
             alignItems="center"
             spacing={1.5}
           >
-            <Grid item xs={8.5} container spacing={1.5}>
+            <Grid item xs container spacing={1.5}>
               <Grid item xs={12} sm={12}>
                 <Card
                   raised={true}
@@ -123,25 +122,35 @@ export function OverviewPage() {
                 >
                   <CardContent>
                     <Stack
-                      direction={cardHeight < dfCardHeight ? "column" : "column"}
+                      direction={
+                        cardHeight < dfCardHeight ? "column" : "column"
+                      }
                       // divider={<Divider orientation="vertical" flexItem />}
                       justifyContent="flex-start"
-                      alignItems={cardHeight < dfCardHeight ? "flex-start" : "flex-start"}
+                      alignItems={
+                        cardHeight < dfCardHeight ? "flex-start" : "flex-start"
+                      }
                       spacing={1}
                     >
                       <Typography
-                        sx={{ fontSize: "3.5vmin", fontWeight: 600, color: "#1f1f27" }}
+                        sx={{
+                          fontSize: "3.5vmin",
+                          fontWeight: 600,
+                          color: "#1f1f27",
+                        }}
                       >
                         主辦人：{dashboard1ChartData?.default.nickname}
                       </Typography>
-                        <OverviewFilters
-                          data={dashboard2ChartData?.droplist || {}}
-                          defaultValue={dashboard2ChartData?.droplist.name[0]||""}
-                          activityNameFilter={activityNameFilter}
-                          setActivityNameFilter={setActivityNameFilter}
-                          formWidth={cardHeight < dfCardHeight ? 310 : "lg"}
-                          excelOptions={excelOptions?excelOptions:{}}
-                        />
+                      <OverviewFilters
+                        data={dashboard2ChartData?.droplist || {}}
+                        defaultValue={
+                          dashboard2ChartData?.droplist.name[0] || ""
+                        }
+                        activityNameFilter={activityNameFilter}
+                        setActivityNameFilter={setActivityNameFilter}
+                        formWidth={cardHeight < dfCardHeight ? 310 : "lg"}
+                        excelOptions={excelOptions ? excelOptions : {}}
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -159,56 +168,62 @@ export function OverviewPage() {
                 <BarChart
                   data={jobNameData ? jobNameData : {}}
                   height={barHeight}
+                  // height={"60vh"}
                 />
               </Grid>
             </Grid>
-
-            <Grid item xs={4} sm={3.5}>
-              <TreemapChart
-                data={industryData ? industryData : []}
-                title={"產業"}
-                height={treemapHeight}
-              />
-            </Grid>
+            {industryData.length ? (
+              <Grid item xs={4} sm={3.5}>
+                <TreemapChart
+                  data={industryData ? industryData : []}
+                  title={"產業"}
+                  height={treemapHeight}
+                />
+              </Grid>
+            ) : null}
           </Grid>
-          <Grid item xs={2.4} sm={2.4}>
-            <NivoPieChart
-              data={dashboard1ChartData?.狀態 || []}
-              title={"報名及報到人數"}
-              colors={["#191970", "#a0c4e6", "#187a7a"]}
-              height={pieHeight}
-            />
-          </Grid>
-          <Grid item xs={2.4} sx={2.4}>
-            <NivoPieChart
-              data={dashboard1ChartData?.場次 || []}
-              title={"場次"}
-              colors={["#191970", "#0abab5"]}
-              height={pieHeight}
-            />
-          </Grid>
-          <Grid item xs={2.4} sx={2.4}>
-            <NivoPieChart
-              data={dashboard1ChartData?.性別 || []}
-              title={"性別"}
-              colors={["#8fbbe5", "#eab1d1", "#c994c7"]}
-              height={pieHeight}
-            />
-          </Grid>
-          <Grid item xs={2.4} sx={2.4}>
-            <NivoPieChart
-              data={dashboard1ChartData?.職級 || []}
-              title={"職級"}
-              colors={["#191970", "#a0c4e6", "#f57719", "#0077B5"]}
-              height={pieHeight}
-            />
-          </Grid>
-          <Grid item xs={2.4} sx={2.4}>
-            <NivoPieChart
-              data={dashboard1ChartData?.職務 || []}
-              title={"職務"}
-              height={pieHeight}
-            />
+          <Grid xs item spacing={1.5}>
+            <Stack direction="row" spacing={1.5} sx={{ width: "100%" }}>
+              {dashboard1ChartData && dashboard1ChartData.狀態 ? (
+                <NivoPieChart
+                  data={dashboard1ChartData.狀態}
+                  title={"報名及報到人數"}
+                  colors={["#191970", "#a0c4e6", "#187a7a"]}
+                  height={pieHeight}
+                />
+              ) : null}
+              {dashboard1ChartData && dashboard1ChartData.場次 ? (
+                <NivoPieChart
+                  data={dashboard1ChartData?.場次 || []}
+                  title={"場次"}
+                  colors={["#191970", "#0abab5"]}
+                  height={pieHeight}
+                />
+              ) : null}
+              {dashboard1ChartData && dashboard1ChartData.性別 ? (
+                <NivoPieChart
+                  data={dashboard1ChartData?.性別 || []}
+                  title={"性別"}
+                  colors={["#8fbbe5", "#eab1d1", "#c994c7"]}
+                  height={pieHeight}
+                />
+              ) : null}
+              {dashboard1ChartData && dashboard1ChartData.職級 ? (
+                <NivoPieChart
+                  data={dashboard1ChartData?.職級 || []}
+                  title={"職級"}
+                  colors={["#191970", "#a0c4e6", "#f57719", "#0077B5"]}
+                  height={pieHeight}
+                />
+              ) : null}
+              {dashboard1ChartData && dashboard1ChartData.職務 ? (
+                <NivoPieChart
+                  data={dashboard1ChartData?.職務 || []}
+                  title={"職務"}
+                  height={pieHeight}
+                />
+              ) : null}
+            </Stack>
           </Grid>
         </Grid>
       </Container>

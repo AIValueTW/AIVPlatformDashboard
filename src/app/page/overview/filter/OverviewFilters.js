@@ -4,7 +4,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { ExcelFilter } from "./components/ExcelFilter copy";
+import { ExcelFilter } from "./components/ExcelFilter";
 import { ActivityFilter } from "./components/ActivityFilter";
 
 export function OverviewFilters({ data,defaultValue, activityNameFilter,setActivityNameFilter,formWidth,excelOptions }) {

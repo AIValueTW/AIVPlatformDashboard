@@ -48,19 +48,7 @@ export function YearFilters({
             ></Typography> */}
             <CardContent>
               <Stack spacing={2} justifyContent="center" alignItems="stretch" >
-                {/* <DateRangeFilter
-                  value={dateRangeFilter}
-                  setValue={setDateRangerFilter}
-                  start={rangerDate ? rangerDate.start : []}
-                  end={rangerDate ? rangerDate.end : []}
-                /> */}
-
-                {/* <TimeMasonryFilter
-                  height={masonryHeight}
-                  setValue={setDatePickerFilter}
-                  setName={setTimeMasonryName}
-                  setDateRangerFilter={setDateRangerFilter}
-                /> */}
+              
                 <ActivityFilter
                 value={activityNameFilter}
                 setValue={setActivityNameFilter}

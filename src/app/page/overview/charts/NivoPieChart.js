@@ -30,7 +30,7 @@ export function NivoPieChart({ data, title, colors, height }) {
 
   return (
     <>
-      <Card raised={true} sx={{ textAlign: "center" }}>
+      <Card raised={true} sx={{ textAlign: "center" ,width:"100%"}}>
         <Box
           style={{
             background: "linear-gradient(to right , #000113, #020f77)",

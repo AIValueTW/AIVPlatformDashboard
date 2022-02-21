@@ -12,6 +12,8 @@ import { Checkbox, FormGroup } from "@mui/material";
 
 export function ActivityFilter({ height, value, setValue }) {
   const [checkedOptions, setCheckedOptions] = useState([]);
+  const [selectedName,setSelectedName]=useState([])
+
   const dispatch = useDispatch();
 
   const { dashboard2ChartData, infoData } = useSelector(
@@ -30,7 +32,8 @@ export function ActivityFilter({ height, value, setValue }) {
   let options = dashboard2ChartData?.droplist.name;
 let droplistData=dashboard2ChartData?.droplist
   const handleChange = (event) => {
-    let checkTemp = {
+    if(event.target.value!=="all"){
+       let checkTemp = {
       ...checkedOptions,
       [event.target.value]: event.target.checked,
     };
@@ -46,8 +49,14 @@ let droplistData=dashboard2ChartData?.droplist
       valueTemp.push(droplistData.value[droplistData.name.indexOf(datum)])
     })
     setValue(valueTemp);
+    }
+    else{
+      setValue(droplistData.value)
+      setSelectedName(options)
+    }
+   
   };
-
+console.log(selectedName)
   return (
     <>
       <Card raised={false}>
@@ -63,6 +72,13 @@ let droplistData=dashboard2ChartData?.droplist
                 value={value}
                 onChange={handleChange}
               >
+                 <FormControlLabel
+                      value="all"
+                      name="全部"
+                      control={<Checkbox />}
+                      label="全部"
+                      // checked={selectedName.length===options.length}
+                    />
                 {options?.map((option) => {
                   return (
                     <FormControlLabel
@@ -70,6 +86,7 @@ let droplistData=dashboard2ChartData?.droplist
                       name={option}
                       control={<Checkbox />}
                       label={option}
+                      // checked={selectedName.includes(option)}
                     />
                   );
                 })}
