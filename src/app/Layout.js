@@ -93,6 +93,7 @@ const TabsList = styled(TabsListUnstyled)`
 `;
 
 export default function SimpleTabs({ store }) {
+
   return (
     <Provider store={store}>
       <TabsUnstyled defaultValue={1}>

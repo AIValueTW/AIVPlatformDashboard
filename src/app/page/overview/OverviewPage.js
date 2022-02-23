@@ -62,10 +62,13 @@ export function OverviewPage() {
       }),
       shallowEqual
     );
+
+
   useEffect(() => {
     dispatch(actions.login());
-    dispatch(actions.getInfoData());
   }, []);
+
+
   useEffect(() => {
     dispatch(
       actions.getDashboard1ChartData({
@@ -77,6 +80,9 @@ export function OverviewPage() {
       })
     );
   }, [dashboard2ChartData, activityNameFilter]);
+
+  console.log(infoData)
+  
   useEffect(() => {
     dispatch(
       actions.getDashboard2ChartData({ author: infoData?.loginId || "412" })

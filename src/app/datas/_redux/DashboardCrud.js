@@ -7,8 +7,10 @@ console.log(ip)
 export const LOGIN_ip = loginIp + "/login";
 
 export const login = () => {
-  let data = axios.post(LOGIN_ip,);
-  return data;
+   const formData = new FormData();
+    formData.append("username", 412);
+    formData.append("password", 123456);
+    return axios.post(LOGIN_ip, formData);
 };
 
 export const infoData = () => {

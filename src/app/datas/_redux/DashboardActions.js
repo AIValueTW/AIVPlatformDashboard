@@ -8,7 +8,6 @@ export const login = () => (dispatch) => {
     .login()
     .then((res) => {
       const DashboardData = res.data;
-      // console.log(DashboardData,"dashLogin")
     })
     .catch((err) => {
       console.log(err);
@@ -89,12 +88,11 @@ export const getExcelOptions =
 export const getExcelName =
   ({author, ma_id,request}) =>
   (dispatch) => {
-    console.log(request)
+    console.log("request",request)
     return dashboardAPI
       .getExcelName(author, ma_id,request)
       .then((res) => {
         // window.location.href = res 
-        console.log(res,'res')
         const DashboardData = res.data;
         console.log(DashboardData,'DashboardData')
         dispatch(

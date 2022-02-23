@@ -30,7 +30,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
 
   const [allOptions, setAllOptions] = useState([]);
 
-  const [selectedValue, setSelectedValue] = useState([]);
+  
 
   const selectedData = selected.filter(onlyUnique);
 
@@ -243,9 +243,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 array={excelOptions["職稱"]}
                 parameter={"職稱"}
                 selected={selected}
-                selectedValue={selectedValue}
                 setSelected={setSelected}
-                setSelectedValue={setSelectedValue}
                 checkedAll={checkedAll}
                 setCheckedAll={setCheckedAll}
               />
@@ -266,9 +264,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 array={excelOptions["產業"]}
                 parameter={"產業"}
                 selected={selected}
-                selectedValue={selectedValue}
                 setSelected={setSelected}
-                setSelectedValue={setSelectedValue}
                 checkedAll={checkedAll}
                 setCheckedAll={setCheckedAll}
               />
@@ -291,9 +287,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 array={excelOptions["狀態"]}
                 parameter={"狀態"}
                 selected={selected}
-                selectedValue={selectedValue}
                 setSelected={setSelected}
-                setSelectedValue={setSelectedValue}
                 checkedAll={checkedAll}
                 setCheckedAll={setCheckedAll}
               />
@@ -314,9 +308,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 array={excelOptions["場次"]}
                 parameter={"場次"}
                 selected={selected}
-                selectedValue={selectedValue}
                 setSelected={setSelected}
-                setSelectedValue={setSelectedValue}
                 checkedAll={checkedAll}
                 setCheckedAll={setCheckedAll}
               />
@@ -337,9 +329,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 array={excelOptions["性別"]}
                 parameter={"性別"}
                 selected={selected}
-                selectedValue={selectedValue}
                 setSelected={setSelected}
-                setSelectedValue={setSelectedValue}
                 checkedAll={checkedAll}
                 setCheckedAll={setCheckedAll}
               />
@@ -360,9 +350,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 array={excelOptions["職級"]}
                 parameter={"職級"}
                 selected={selected}
-                selectedValue={selectedValue}
                 setSelected={setSelected}
-                setSelectedValue={setSelectedValue}
                 checkedAll={checkedAll}
                 setCheckedAll={setCheckedAll}
               />
@@ -383,9 +371,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 array={excelOptions["職務"]}
                 parameter={"職務"}
                 selected={selected}
-                selectedValue={selectedValue}
                 setSelected={setSelected}
-                setSelectedValue={setSelectedValue}
                 checkedAll={checkedAll}
                 setCheckedAll={setCheckedAll}
               />
