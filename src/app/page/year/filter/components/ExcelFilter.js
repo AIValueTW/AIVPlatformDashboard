@@ -4,7 +4,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 
-import { Checkbox, FormControlLabel, MenuItem } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -13,7 +13,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { styled } from "@mui/system";
 import Box from "@mui/material/Box";
-import { CheckboxGroup } from "../../../../components/CheckboxGroup copy";
+import { CheckboxGroup } from "../../../../components/CheckboxGroup";
 
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
@@ -23,14 +23,10 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [exportOptions, setExportOptions] = useState();
-
   const [checkedAll, setCheckedAll] = useState(false);
-
   const [selected, setSelected] = useState([]);
 
   const [allOptions, setAllOptions] = useState([]);
-
-  
 
   const selectedData = selected.filter(onlyUnique);
 
@@ -74,52 +70,12 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    setValue([]);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleChange = (event) => {
-    const checked = event.target.checked;
-    // if (checked === true) {
-    // h.push("all");
-    // }
-    // if(selected.length===allOptions.length){
-    //   setSelectedValue([])
-    // }
-    setSelected(selected.length === allOptions.length?[]:allOptions.filter((res)=>selected.includes(res)))
-    setExportOptions(excelTemp);
-    setCheckedAll(checked);
-  };
 
   useEffect(() => {
-    dispatch(
-      actions.getExcelOptions({
-        author: infoData?.loginId || "412",
-        ma_id:
-          dashboard2ChartData?.droplist.value[
-            activityNameFilter !== -1 ? activityNameFilter : "1"
-          ],
-      })
-    );
-  }, [dashboard2ChartData, activityNameFilter]);
-
-  useEffect(() => {
-    if (excelOptions) {
-      let dataTemp = [];
-      let optionsTemp = {};
-      for (const key in excelOptions) {
-        optionsTemp = excelOptions[key].options;
-        for (const key2 in optionsTemp) {
-          dataTemp.push(optionsTemp[key2]);
-        }
-      }
-      setAllOptions(dataTemp);
-    }
-  }, [excelOptions]);
-
-  useEffect(() => {
-    // if (allOptions.length > 0 && selected.length !== allOptions.length) {
       for (const key in excelOptions) {
         for (const key2 in excelOptions[key]) {
           selectedData.map((datum) => {
@@ -166,6 +122,39 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
     setExportOptions(excelTemp);
   }, [selected]);
 
+  const handleChange = (event) => {
+    const checked = event.target.checked;
+    
+    setSelected(selected.length === allOptions.length?[]:allOptions.filter((res)=>selected.includes(res)))
+    setCheckedAll(checked);
+  };
+
+  useEffect(() => {
+    dispatch(
+      actions.getExcelOptions({
+        author: infoData?.loginId || "412",
+        ma_id:
+          dashboard2ChartData?.droplist.value[
+            activityNameFilter !== -1 ? activityNameFilter : "1"
+          ],
+      })
+    );
+  }, [dashboard2ChartData, activityNameFilter]);
+
+  useEffect(() => {
+    if (excelOptions) {
+      let dataTemp = [];
+      let optionsTemp = {};
+      for (const key in excelOptions) {
+        optionsTemp = excelOptions[key].options;
+        for (const key2 in optionsTemp) {
+          dataTemp.push(optionsTemp[key2]);
+        }
+      }
+      setAllOptions(dataTemp);
+    }
+  }, [excelOptions]);
+
 
   useEffect(() => {
     dispatch(
@@ -197,12 +186,12 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
   const isAllSelected =
     allOptions.length > 0 && allOptions.length === selected.length;
 
-  console.log(allOptions.length, selected.length);
+ 
 
   return (
     <div>
       <Button
-        sx={{fontSize:"1.8vmin",minWidth:"100%" }}
+       sx={{fontSize:"1.8vmin",minWidth:"100%" }}
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
@@ -242,10 +231,9 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["職稱"]}
                 parameter={"職稱"}
+                checkedAll={checkedAll}   
                 selected={selected}
                 setSelected={setSelected}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -263,15 +251,14 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["產業"]}
                 parameter={"產業"}
+                checkedAll={checkedAll}   
                 selected={selected}
                 setSelected={setSelected}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
         ) : null}
-        {excelOptions && excelOptions["狀態"].options.length ? (
+         {excelOptions && excelOptions["狀態"].options.length ? (
           <Accordion
             expanded={expanded === "panel3"}
             onChange={acchandleChange("panel3")}
@@ -286,10 +273,9 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["狀態"]}
                 parameter={"狀態"}
+                checkedAll={checkedAll}   
                 selected={selected}
                 setSelected={setSelected}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -307,10 +293,9 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["場次"]}
                 parameter={"場次"}
+                checkedAll={checkedAll}   
                 selected={selected}
                 setSelected={setSelected}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -328,10 +313,9 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["性別"]}
                 parameter={"性別"}
+                checkedAll={checkedAll}   
                 selected={selected}
                 setSelected={setSelected}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -349,10 +333,9 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["職級"]}
                 parameter={"職級"}
+                checkedAll={checkedAll}   
                 selected={selected}
                 setSelected={setSelected}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
@@ -370,14 +353,13 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["職務"]}
                 parameter={"職務"}
+                checkedAll={checkedAll}   
                 selected={selected}
                 setSelected={setSelected}
-                checkedAll={checkedAll}
-                setCheckedAll={setCheckedAll}
               />
             </AccordionDetails>
           </Accordion>
-        ) : null}
+        ) : null} 
         {/* <MenuItem sx={{ backgroundColor: "#6365a3" }} onClick={handleClose}>
           匯出
         </MenuItem> */}

@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 
 import Chart from "react-apexcharts";
-import { Box, CardContent, Typography } from "@mui/material";
-import useWindowDimensions from "../../../components/useWindowDimensions";
-import { getD1BarHeight } from "../../../components/DynamicHeight";
+import { Box, Typography } from "@mui/material";
+
 import { styled } from "@mui/system";
 
 export function BarChart({ data, height }) {
@@ -123,7 +122,6 @@ export function BarChart({ data, height }) {
           offsetY: 0,
           offsetX: 0,
         },
-        // tickAmount: 6,
         axisTicks: {
           offsetY: -1,
         },
@@ -160,10 +158,6 @@ export function BarChart({ data, height }) {
     });
   }, [categories]);
 
-  // useEffect(() => {
-  //   setBarHeight(getChartHeight(categories.length));
-  // }, [categories.length]);
-
   return (
     <>
       <Card raised={true} sx={{ textAlign: "center" }}>
@@ -176,9 +170,6 @@ export function BarChart({ data, height }) {
           <Title>職稱</Title>
         </Box>
         <Box style={{ height: height, overflow: "auto", overflowX: "hidden",marginBottom:"0.5vw" }}>
-          {/* <div
-           
-          > */}
             {options ? (
               <Chart
                 options={options}
@@ -188,7 +179,6 @@ export function BarChart({ data, height }) {
                 width={"100%"}
               />
             ) : null}
-          {/* </div> */}
         </Box>
       </Card>
     </>

@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
-
 import Chart from "react-apexcharts";
 import { Box, CardContent, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
-export function ColumnChart({ seriesData ,height}) {
+export function ColumnChart({ seriesData, height }) {
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState(null);
-  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    let seriesDataTemp=[]
-    for(const key in seriesData){
-      seriesDataTemp.push(seriesData[key])
+    let seriesDataTemp = [];
+    for (const key in seriesData) {
+      seriesDataTemp.push(seriesData[key]);
     }
-    if(seriesDataTemp.length){
-      let seriesTemp=[]
-      seriesDataTemp.map((datum)=>{
+    if (seriesDataTemp.length) {
+      let seriesTemp = [];
+      seriesDataTemp.map((datum) => {
         seriesTemp.push({
-          name:datum.name,
-          data:datum.value
-        })
-      })
-      setSeries(seriesTemp)
+          name: datum.name,
+          data: datum.value,
+        });
+      });
+      setSeries(seriesTemp);
     }
   }, [seriesData]);
 
@@ -32,7 +30,7 @@ export function ColumnChart({ seriesData ,height}) {
       chart: {
         type: "bar",
         height: 350,
-        offsetY:6,
+        offsetY: 6,
         toolbar: {
           show: false,
         },
@@ -41,7 +39,7 @@ export function ColumnChart({ seriesData ,height}) {
         },
       },
 
-      colors: ["#f5c855","#0c2466"],
+      colors: ["#f5c855", "#0c2466"],
       plotOptions: {
         bar: {
           borderRadius: 4,
@@ -56,26 +54,26 @@ export function ColumnChart({ seriesData ,height}) {
           fontSize: "14px",
           colors: ["#000000"],
         },
-        offsetY:-20
+        offsetY: -20,
       },
-      tooltip:{
+      tooltip: {
         fixed: {
           enabled: true,
-          position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
+          position: "topLeft", // topRight, topLeft, bottomRight, bottomLeft
           offsetY: 30,
-          offsetX: 60
+          offsetX: 60,
         },
-        style:{
-          fontSize:"16px"
+        style: {
+          fontSize: "16px",
         },
-        y:{
-          formatter: function(value) {
-            return value.toFixed(0)
-          }
-        } 
+        y: {
+          formatter: function (value) {
+            return value.toFixed(0);
+          },
+        },
       },
       xaxis: {
-        categories: ["報名人數","報到人數"],
+        categories: ["報名人數", "報到人數"],
         labels: {
           hideOverlappingLabels: true,
           style: {
@@ -83,9 +81,7 @@ export function ColumnChart({ seriesData ,height}) {
             colors: "#000000",
           },
           offsetY: 2,
-          // offsetX:3
         },
-        // tickAmount: 6,
         axisTicks: {
           offsetY: -1,
         },
@@ -93,7 +89,6 @@ export function ColumnChart({ seriesData ,height}) {
       yaxis: {
         labels: {
           show: true,
-          // offsetY: 6,
           style: {
             fontSize: "1.8vmin",
             colors: "#000000",
@@ -102,7 +97,7 @@ export function ColumnChart({ seriesData ,height}) {
         tickAmount: 6,
       },
       fill: {
-        opacity: 1
+        opacity: 1,
       },
       legend: {
         show: false,
@@ -120,22 +115,25 @@ export function ColumnChart({ seriesData ,height}) {
         },
       },
     });
-  }, [categories]);
+  }, [seriesData]);
 
   const Title = styled(Typography)`
-  font-size: 1.6vw;
-  font-weight: 600;
-  color: #fff;
-`;
+    font-size: 1.6vw;
+    font-weight: 600;
+    color: #fff;
+  `;
 
   return (
     <>
-       <Card raised={true} sx={{textAlign:"center"}}>
-          <Box style={{background:"linear-gradient(to right , #000113, #020f77)",padding:"1.2vmin"}}>
-            <Title >
-              活動報名及報到人數比較
-            </Title>
-          </Box>
+      <Card raised={true} sx={{ textAlign: "center" }}>
+        <Box
+          style={{
+            background: "linear-gradient(to right , #000113, #020f77)",
+            padding: "1.2vmin",
+          }}
+        >
+          <Title>活動報名及報到人數比較</Title>
+        </Box>
         <CardContent>
           {options ? (
             <Chart

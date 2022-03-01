@@ -36,7 +36,6 @@ export function OverviewPage() {
   const [pieHeight, setPieHeight] = useState([]);
 
   const dfCardHeight = 150;
-  // const dfCardHeight = 230;
   const dfRadialHeight = 355;
   const dfBarHeight = 324;
   const dfTreemapHeight = 460;
@@ -63,11 +62,9 @@ export function OverviewPage() {
       shallowEqual
     );
 
-
   useEffect(() => {
     dispatch(actions.login());
   }, []);
-
 
   useEffect(() => {
     dispatch(
@@ -81,8 +78,8 @@ export function OverviewPage() {
     );
   }, [dashboard2ChartData, activityNameFilter]);
 
-  console.log(infoData)
-  
+  console.log(infoData);
+
   useEffect(() => {
     dispatch(
       actions.getDashboard2ChartData({ author: infoData?.loginId || "412" })
@@ -97,7 +94,7 @@ export function OverviewPage() {
   const industryData = processTreemap({
     rawData: dashboard1ChartData?.產業 || [],
   });
-console.log(activityNameFilter)
+
   return (
     <>
       <Container maxWidth="false">
@@ -131,7 +128,6 @@ console.log(activityNameFilter)
                       direction={
                         cardHeight < dfCardHeight ? "column" : "column"
                       }
-                      // divider={<Divider orientation="vertical" flexItem />}
                       justifyContent="flex-start"
                       alignItems={
                         cardHeight < dfCardHeight ? "flex-start" : "flex-start"
@@ -161,27 +157,42 @@ console.log(activityNameFilter)
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <RadialBarChart
-                  data={radialData ? radialData : {}}
-                  checkIndex={
-                    activityNameFilter !== -1 ? activityNameFilter : "0"
-                  }
-                  height={radialHeight}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <BarChart
-                  data={jobNameData ? jobNameData : {}}
-                  height={barHeight}
-                  // height={"60vh"}
-                />
+              <Grid item container xs={12} spacing={1.5}>
+                {radialData.value.length &&
+                radialData.value[0] !== undefined ? (
+                  <Grid item xs={12} sm={jobNameData.name.length ? 6 : 11.9}>
+                    <RadialBarChart
+                      data={radialData ? radialData : {}}
+                      checkIndex={
+                        activityNameFilter !== -1 ? activityNameFilter : "0"
+                      }
+                      height={radialHeight}
+                    />
+                  </Grid>
+                ) : null}
+                {jobNameData.name.length ? (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={
+                      radialData.value.length &&
+                      radialData.value[0] !== undefined
+                        ? 6
+                        : 11.9
+                    }
+                  >
+                    <BarChart
+                      data={jobNameData ? jobNameData : {}}
+                      height={barHeight}
+                    />
+                  </Grid>
+                ) : null}
               </Grid>
             </Grid>
             {industryData.length ? (
               <Grid item xs={4} sm={3.5}>
                 <TreemapChart
-                  data={industryData ? industryData : []}
+                  data={industryData}
                   title={"產業"}
                   height={treemapHeight}
                 />

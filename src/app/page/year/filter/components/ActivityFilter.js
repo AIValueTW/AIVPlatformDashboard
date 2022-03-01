@@ -56,7 +56,7 @@ let droplistData=dashboard2ChartData?.droplist
     }
    
   };
-console.log(selectedName)
+
   return (
     <>
       <Card raised={false}>
@@ -77,7 +77,6 @@ console.log(selectedName)
                       name="全部"
                       control={<Checkbox />}
                       label="全部"
-                      // checked={selectedName.length===options.length}
                     />
                 {options?.map((option) => {
                   return (
@@ -86,7 +85,6 @@ console.log(selectedName)
                       name={option}
                       control={<Checkbox />}
                       label={option}
-                      // checked={selectedName.includes(option)}
                     />
                   );
                 })}

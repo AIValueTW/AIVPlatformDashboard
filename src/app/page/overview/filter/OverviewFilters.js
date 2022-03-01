@@ -7,7 +7,7 @@ import {
 import { ExcelFilter } from "./components/ExcelFilter";
 import { ActivityFilter } from "./components/ActivityFilter";
 
-export function OverviewFilters({ data,defaultValue, activityNameFilter,setActivityNameFilter,formWidth,excelOptions }) {
+export function OverviewFilters({ data,defaultValue, activityNameFilter,setActivityNameFilter,formWidth }) {
   const [field, setField] = useState([]);
 
   return (

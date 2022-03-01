@@ -10,7 +10,7 @@ import { YearPage } from "./page/year/YearPage";
 import { MaterialThemeProvider } from "./layout/MaterialThemeProvider";
 import TabUnstyled, { tabUnstyledClasses } from "@mui/base/TabUnstyled";
 import { buttonUnstyledClasses } from "@mui/base/ButtonUnstyled";
-import { Box, CardContent, CssBaseline, Typography } from "@mui/material";
+import { CssBaseline, Typography } from "@mui/material";
 
 const blue = {
   50: "#F0F7FF",
@@ -76,10 +76,12 @@ const Tab = styled(TabUnstyled)`
 const TabPanel = styled(TabPanelUnstyled)`
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
   font-family: IBM Plex Sans, sans-serif;
   font-size: 0.875rem;
   padding: 1vmin 5px;
-  margin: 10px 0px;
+  margin: 1px 0px;
 `;
 
 const TabsList = styled(TabsListUnstyled)`
@@ -99,7 +101,6 @@ export default function SimpleTabs({ store }) {
       <TabsUnstyled defaultValue={1}>
         <TabsList>
           <Title>AIV活動後台Dashboard</Title>
-          {/* <Title>AIV活動後台DASHBOARD</Title> */}
           <Tab>總覽</Tab>
           <Tab>歷年比較</Tab>
         </TabsList>

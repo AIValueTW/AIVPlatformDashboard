@@ -1,36 +1,28 @@
 import React, { useEffect, useState } from "react";
-
 import Card from "@mui/material/Card";
-
-import CardContent from "@mui/material/CardContent";
-
 import { ResponsivePie } from "@nivo/pie";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 export function NivoPieChart({ data, title, colors, height }) {
-  const [pieData,setPieData]=useState([{id:""}])
+  const [pieData, setPieData] = useState([{ id: "" }]);
   const Title = styled(Typography)`
     font-size: 1.4vw;
     font-weight: 600;
     color: #fff;
   `;
-   useEffect(()=>{
- 
-    if(data.length){
-      setPieData(data)
+  useEffect(() => {
+    if (data.length) {
+      setPieData(data);
+    } else {
+      setPieData([{ id: "無資料", value: 1 }]);
     }
-    else{
-      setPieData([{id:"無資料",value:1}])
-    }
-
-  },[data])
-
+  }, [data]);
 
   return (
     <>
-      <Card raised={true} sx={{ textAlign: "center" ,width:"100%"}}>
+      <Card raised={true} sx={{ textAlign: "center", width: "100%" }}>
         <Box
           style={{
             background: "linear-gradient(to right , #000113, #020f77)",
@@ -44,11 +36,17 @@ export function NivoPieChart({ data, title, colors, height }) {
             data={pieData}
             sortByValue={false}
             margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
-            startAngle={data.length===1?270:0}
+            startAngle={data.length === 1 ? 270 : 0}
             endAngle={-360}
             innerRadius={data.length <= 2 ? 0 : 0}
             activeOuterRadiusOffset={3}
-            colors={colors&&pieData[0].id!=="無資料" ? colors :pieData[0].id=="無資料"?"#aeaeae": { scheme: "purple_orange" }}
+            colors={
+              colors && pieData[0].id !== "無資料"
+                ? colors
+                : pieData[0].id == "無資料"
+                ? "#aeaeae"
+                : { scheme: "purple_orange" }
+            }
             borderWidth={1}
             borderColor={{ from: "color", modifiers: [["brighter", 3]] }}
             arcLinkLabel={function (e) {
@@ -64,7 +62,7 @@ export function NivoPieChart({ data, title, colors, height }) {
             arcLabelsSkipAngle={30}
             arcLabel="id"
             arcLabelsTextColor="#ffffff"
-            enableArcLinkLabels={pieData[0].id=="無資料"?false:true}
+            enableArcLinkLabels={pieData[0].id == "無資料" ? false : true}
             arcLinkLabel="value"
             theme={
               data.length <= 3

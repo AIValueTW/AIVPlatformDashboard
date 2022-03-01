@@ -3,7 +3,7 @@ import { dateISOString } from "../components/dateISOString";
 
 const ip = process.env.REACT_APP_DASHBOARD
 const loginIp = process.env.REACT_APP_SERVER;// 閱讀最外層檔案.env &&development 為本地端啟動 production 為伺服器設定
-console.log(ip)
+
 export const LOGIN_ip = loginIp + "/login";
 
 export const login = () => {

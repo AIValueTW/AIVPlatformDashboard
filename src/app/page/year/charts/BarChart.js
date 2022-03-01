@@ -1,22 +1,13 @@
 import React, { useEffect, useState } from "react";
-// import "../../../../../charts/chartsStyle.css";
 import Card from "@mui/material/Card";
-
 import Chart from "react-apexcharts";
 import { Box, CardContent, Typography } from "@mui/material";
-import useWindowDimensions from "../../../components/useWindowDimensions";
-import { getD2ChartHeight } from "../../../components/DynamicHeight";
-
-import { RiVipCrownFill } from "react-icons/ri";
-import crownIcon from "../../../../../src/crownIcon.png";
 import { styled } from "@mui/system";
-// import { getAllChartHeight, getChartHeight, getYAxisSize } from "../../../components/DynamicHeight";
 
 export function BarChart({ seriesData, height }) {
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState(null);
   const [categories, setCategories] = useState([]);
-
 
   useEffect(() => {
     setSeries([
@@ -39,19 +30,9 @@ export function BarChart({ seriesData, height }) {
         },
       },
 
-      colors: [
-        // "#9de0e0",
-        // "#27c7c7",
-        "#f7b756",
-        // "#f39f5f",
-        // "#bec9c5",
-        // "#f5c855",
-        // "#f8e191",
-        "#f57719",
-      ],
+      colors: ["#f7b756", "#f57719"],
       plotOptions: {
         bar: {
-          // borderRadius: 4,
           columnWidth: "45%",
           horizontal: true,
           distributed: true,
@@ -60,23 +41,19 @@ export function BarChart({ seriesData, height }) {
           },
         },
       },
-      tooltip:{
-       
-        style:{
-          fontSize:"16px"
+      tooltip: {
+        style: {
+          fontSize: "16px",
         },
-        y:{
-          formatter: function(value) {
-            return value.toFixed(0) + "%"
-          }
-        } 
+        y: {
+          formatter: function (value) {
+            return value.toFixed(0) + "%";
+          },
+        },
       },
       dataLabels: {
         enabled: true,
         textAnchor: "start",
-        // offsetX: -35,
-        // offsetY:1,
-
         style: {
           fontSize: "1.8vmin",
           colors: ["#ffffff"],
@@ -86,7 +63,7 @@ export function BarChart({ seriesData, height }) {
         },
         dropShadow: {
           enabled: true,
-          opacity: 0.9
+          opacity: 0.9,
         },
       },
 

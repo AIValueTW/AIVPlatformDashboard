@@ -13,13 +13,13 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { styled } from "@mui/system";
 import Box from "@mui/material/Box";
-import { CheckboxGroup } from "../../../../components/CheckboxGroup copy";
+import { CheckboxGroup } from "../../../../components/CheckboxGroup";
 
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
 
-export function ExcelFilter({ activityNameFilter, value, setValue }) {
+export function ExcelFilter({ activityNameFilter }) {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [exportOptions, setExportOptions] = useState();
@@ -29,8 +29,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
   const [selected, setSelected] = useState([]);
 
   const [allOptions, setAllOptions] = useState([]);
-
- 
 
   const selectedData = selected.filter(onlyUnique);
 
@@ -74,73 +72,66 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    // setValue([]);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   useEffect(() => {
-    // if (allOptions.length > 0 && selected.length !== allOptions.length) {
-      for (const key in excelOptions) {
-        for (const key2 in excelOptions[key]) {
-          selectedData.map((datum) => {
-            switch (key) {
-              case "職稱":
-                if (excelOptions[key][key2].includes(datum)) {
-                  a.push(datum);
-                }
-                break;
-              case "產業":
-                if (excelOptions[key][key2].includes(datum)) {
-                  b.push(datum);
-                }
-                break;
-              case "狀態":
-                if (excelOptions[key][key2].includes(datum)) {
-                  c.push(datum);
-                }
-                break;
-              case "場次":
-                if (excelOptions[key][key2].includes(datum)) {
-                  d.push(datum);
-                }
-                break;
-              case "性別":
-                if (excelOptions[key][key2].includes(datum)) {
-                  e.push(datum);
-                }
-                break;
-              case "職級":
-                if (excelOptions[key][key2].includes(datum)) {
-                  f.push(datum);
-                }
-                break;
-              default:
-                if (excelOptions[key][key2].includes(datum)) {
-                  g.push(datum);
-                }
-            }
-          });
-        }
+    for (const key in excelOptions) {
+      for (const key2 in excelOptions[key]) {
+        selectedData.map((datum) => {
+          switch (key) {
+            case "職稱":
+              if (excelOptions[key][key2].includes(datum)) {
+                a.push(datum);
+              }
+              break;
+            case "產業":
+              if (excelOptions[key][key2].includes(datum)) {
+                b.push(datum);
+              }
+              break;
+            case "狀態":
+              if (excelOptions[key][key2].includes(datum)) {
+                c.push(datum);
+              }
+              break;
+            case "場次":
+              if (excelOptions[key][key2].includes(datum)) {
+                d.push(datum);
+              }
+              break;
+            case "性別":
+              if (excelOptions[key][key2].includes(datum)) {
+                e.push(datum);
+              }
+              break;
+            case "職級":
+              if (excelOptions[key][key2].includes(datum)) {
+                f.push(datum);
+              }
+              break;
+            default:
+              if (excelOptions[key][key2].includes(datum)) {
+                g.push(datum);
+              }
+          }
+        });
       }
-    // }
+    }
     setExportOptions(excelTemp);
   }, [selected]);
 
   const handleChange = (event) => {
     const checked = event.target.checked;
-    
-    // if (checked === true) {
-    // h.push("all");
-    // }
-    // if(selected.length===allOptions.length){
-    //   setSelectedValue([])
-    // }
-    setSelected(selected.length === allOptions.length?[]:allOptions.filter((res)=>selected.includes(res)))
-    // setExportOptions(excelTemp);
+
+    setSelected(
+      selected.length === allOptions.length
+        ? []
+        : allOptions.filter((res) => selected.includes(res))
+    );
     setCheckedAll(checked);
-    console.log(selected.length === allOptions.length)
   };
 
   useEffect(() => {
@@ -169,8 +160,6 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
     }
   }, [excelOptions]);
 
-
-
   useEffect(() => {
     dispatch(
       actions.getExcelName({
@@ -197,11 +186,8 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
     setExpanded(isExpanded ? panel : false);
   };
 
-  // const isAllSelected = exportOptions?.selectall.includes("all")
   const isAllSelected =
     allOptions.length > 0 && allOptions.length === selected.length;
-
-  console.log(allOptions.length, selected.length,selectedData.length);
 
   return (
     <div>
@@ -246,7 +232,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["職稱"]}
                 parameter={"職稱"}
-                checkedAll={checkedAll}   
+                checkedAll={checkedAll}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -266,14 +252,14 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["產業"]}
                 parameter={"產業"}
-                checkedAll={checkedAll}   
+                checkedAll={checkedAll}
                 selected={selected}
                 setSelected={setSelected}
               />
             </AccordionDetails>
           </Accordion>
         ) : null}
-         {excelOptions && excelOptions["狀態"].options.length ? (
+        {excelOptions && excelOptions["狀態"].options.length ? (
           <Accordion
             expanded={expanded === "panel3"}
             onChange={acchandleChange("panel3")}
@@ -288,7 +274,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["狀態"]}
                 parameter={"狀態"}
-                checkedAll={checkedAll}   
+                checkedAll={checkedAll}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -308,7 +294,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["場次"]}
                 parameter={"場次"}
-                checkedAll={checkedAll}   
+                checkedAll={checkedAll}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -328,7 +314,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["性別"]}
                 parameter={"性別"}
-                checkedAll={checkedAll}   
+                checkedAll={checkedAll}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -348,7 +334,7 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["職級"]}
                 parameter={"職級"}
-                checkedAll={checkedAll}   
+                checkedAll={checkedAll}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -368,16 +354,13 @@ export function ExcelFilter({ activityNameFilter, value, setValue }) {
                 rawData={excelOptions}
                 array={excelOptions["職務"]}
                 parameter={"職務"}
-                checkedAll={checkedAll}   
+                checkedAll={checkedAll}
                 selected={selected}
                 setSelected={setSelected}
               />
             </AccordionDetails>
           </Accordion>
-        ) : null} 
-        {/* <MenuItem sx={{ backgroundColor: "#6365a3" }} onClick={handleClose}>
-          匯出
-        </MenuItem> */}
+        ) : null}
         <Box textAlign={"center"}>
           <Button
             onClick={onDownload}

@@ -6,7 +6,7 @@
     } else if (height > 969) {
       return (height = height * 0.15);
     } else {
-      height = height * 0.18;
+      height = height * 0.17;
     }
     return height;
   } 
@@ -18,7 +18,7 @@
     } else if (height > 969) {
       return (height = height * 0.36);
     } else {
-      height = height * 0.33;
+      height = height * 0.373;
     }
     return height;
   } 
@@ -30,7 +30,7 @@ export function getD1BarHeight(chartHeight, height) {
     } else if (height > 969) {
       return (height = height * 0.34);
     } else {
-      height = height * 0.28;
+      height = height * 0.341;
     }
     return height;
   }
@@ -42,7 +42,7 @@ export  function getD1TreemapHeight(chartHeight, height) {
     } else if (height > 969) {
       return (height = height * 0.49);
     } else {
-      height = height * 0.425;
+      height = height * 0.488;
     }
     return height;
   }
@@ -54,7 +54,7 @@ export function getD1PieHeight(chartHeight, height) {
     } else if (height > 969) {
       return (height = height * 0.25);
     } else {
-      height = height * 0.23;
+      height = height * 0.24;
     }
     return height;
   }  
@@ -67,7 +67,7 @@ export function getD1PieHeight(chartHeight, height) {
     } else if (height > 969) {
       return (height = height * 0.78);
     } else {
-      height = height * 0.68;
+      height = height * 0.75;
     }
     return height;
   } 
@@ -86,12 +86,3 @@ export function getD1PieHeight(chartHeight, height) {
     }
     return height;
   } 
-
-
-
- 
-export  function getYAxisSize(height) {
-    var size=0
-    size=height/60
-    return size;
-  }
